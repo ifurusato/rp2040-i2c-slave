@@ -7,7 +7,7 @@ ItsyBitsy RP2040 with its NeoPixel as a status indicator.
 
 This repository is largely based on the original work by TraoreMorike found at:
 
-    [https://github.com/TraoreMorike/Raspberry-Pico---I2C-Slave]
+    [Raspberry-Pico---I2C-Slave](https://github.com/TraoreMorike/Raspberry-Pico---I2C-Slave)
 
 
 ## Support & Liability
