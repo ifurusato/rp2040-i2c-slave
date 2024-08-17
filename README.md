@@ -12,6 +12,15 @@ This repository is largely based on the original work by TraoreMorike found at:
 * [Raspberry-Pico---I2C-Slave](https://github.com/TraoreMorike/Raspberry-Pico---I2C-Slave)
 
 
+## Hardware Installation
+
+The ItsyBitsy RP2040 uses pin 24 for SDA and pin 25 for SCL. You should also
+be sure to connect the GND pin to the common ground of your Raspberry Pi. If
+you're connecting it to your Pi via a USB connector you won't need to provide
+3.3V to the board as that will be provided via USB. So: just three wires, as
+per the photo.
+
+
 ## Support & Liability
 
 This project comes with no promise of support or liability. Use at your own risk.
