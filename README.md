@@ -177,7 +177,7 @@ RP2040's GPIO pin 18, as seen at left. You don't have to use a pink wire.
 The software part of this example uses a Sensor class, which extends the
 I2CDriver class and overrides its output to return one of two newly-defined
 byte response codes, "OFF" (`0x30`) or "ON" (`0x31`) if the response from
-the I2CSlave is OKAY (0x4F); error codes are passed back to the master
+the I2CSlave is "OKAY" (`0x4F`); error codes are passed back to the master
 directly.
 
 The response.py file has been modified to accommodate the two new enumerated
