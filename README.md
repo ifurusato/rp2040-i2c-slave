@@ -17,7 +17,8 @@ The implementation uses Python (CPython) on the Raspberry Pi and MicroPython
 on the RP2040. It communicates over I2C address 0x44, though this is easily
 changed.
 
-This repository is largely based on the original work by TraoreMorike found at:
+The I2C communications of this repository are largely based on (and include
+two files from) the original work by TraoreMorike as found at:
 
 * [Raspberry-Pico---I2C-Slave](https://github.com/TraoreMorike/Raspberry-Pico---I2C-Slave)
 
