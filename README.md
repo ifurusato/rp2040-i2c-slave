@@ -99,6 +99,8 @@ SPACE and `~`. The response will be something like:
   response: okay
   complete.
 ```
+If you're using an ItsyBitsy RP2040 the NeoPixel should flash green if the
+transmission was successful.
 
 
 ## Next Steps
