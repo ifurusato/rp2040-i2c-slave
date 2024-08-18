@@ -81,6 +81,27 @@ RP2040 you should see its NeoPixel flash a bright cyan blue three times,
 and then a dimmer continuous flash after that.
 
 
+## Testing
+
+You can then test to see if things are working by executing the `master.py`
+file with a string argument:
+```
+ % master.py "This is something important."
+  -- value "This is something important."...
+  creating connection to I2C bus on address 0x44…
+  writing I2C payload of 28 chars: 'This is something important.'…
+  writing completion code…
+  write complete.
+```
+Note that this only supports ASCII strings of up to 32 characters between
+SPACE and `~`. The response will be something like:
+```
+  read data: '32'
+  response: okay
+  complete.
+```
+
+
 ## Next Steps
 
 The next phase of this project will be to convert both the `master.py` on the
