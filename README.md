@@ -23,6 +23,64 @@ two files from) the original work by TraoreMorike as found at:
 * [Raspberry-Pico---I2C-Slave](https://github.com/TraoreMorike/Raspberry-Pico---I2C-Slave)
 
 
+## Dependencies
+
+There are no external dependencies apart from a recent version of MicroPython,
+which can be downloaded from:
+
+* [MicroPython downloads[(https://micropython.org/download/)
+
+This project is currently using MicroPython v1.23.0.
+
+A handy tool for working with MicroPython is rshell, available at:
+
+* [rshell](https://github.com/dhylands/rshell)
+
+
+## Installation/Deployment
+
+Once you've installed a recent version of MicroPython on your RP2040 board,
+the easiest way to deploy the code and test the project is using *rshell*.
+
+For discussion purposes, let's assume you've cloned the repository to the
+following directory: `/home/pi/workspace/rp2040-i2c-slave/`, with its
+MicroPython files in the `/upy/` subdirectory.
+
+If your RP2040 board is showing up at `/dev/ttyACM1` you'd start an rshell
+session with:
+```
+  % rshell -p /dev/ttyACM1
+  /home/pi/workspace/rp2040-i2c-slave/upy>
+```
+then change the working directory to the board itself:
+```
+  % cd /pyboard
+  /pyboard>
+```
+Then you can copy the files to the board in one go using the `rsync` command,
+where the `.` indicates the current working directory:
+```
+  /pyboard> rsync /home/pi/workspace/rp2040-i2c-slave/upy .
+  Adding /pyboard/neopixel.py
+  Adding /pyboard/RP2040_I2C_Registers.py
+  Adding /pyboard/stringbuilder.py
+  [...]
+```
+Then you can either `exit` rshell and push the board's RST button to execute
+the main.py script, or enter the Python REPL and `import main` (you don't
+include the file extension) to execute its code:
+```
+  /pyboard> repl
+  MicroPython v1.23.0 on 2024-06-02; Adafruit ItsyBitsy RP2040 with RP2040
+  Type "help()" for more information.
+  >>>
+  >>> import main
+```
+This will start I2C slave mode on the RP2040. If you're using an ItsyBitsy
+RP2040 you should see its NeoPixel flash a bright cyan blue three times,
+and then a dimmer continuous flash after that.
+
+
 ## Next Steps
 
 The next phase of this project will be to convert both the `master.py` on the
@@ -43,7 +101,7 @@ On the Raspberry Pi side, the provided "master.py" file expects a command
 line argument, which must be composed of a maximum of 32 ASCII characters
 between SPACE (32) and "~" (126). For example,
 ```
-  master.py "Send this message."
+  % master.py "Send this message."
 ```
 
 The I2C slave will receive the message and respond with a single byte status
