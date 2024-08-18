@@ -110,12 +110,12 @@ extended and used as base classes.
 
 ## Usage
 
-Copy the contents of the `./upy/` directory on an RP2040 that has a recent
-version of MicroPython installed. The "main.py" file is used for the ItsyBitsy
-RP2040 and includes use of its NeoPixel. If you're using a different RP2040
-board you can use the "main_no_px.py" file instead, as that has no NeoPixel
-support and therefore should be pretty generic. If you want to use the latter
-you'd need to rename it to "main.py".
+As described above, copy the contents of the `./upy/` directory to an RP2040
+that has a recent version of MicroPython installed. The "main.py" file is
+used for the ItsyBitsy RP2040 and includes use of its NeoPixel. If you're
+using a different RP2040 board you can use the "main_no_px.py" file instead,
+as that has no NeoPixel support and therefore should be pretty generic. If
+you want to use the latter you'd need to rename it to "main.py".
 
 On the Raspberry Pi side, the provided "master.py" file expects a command
 line argument, which must be composed of a maximum of 32 ASCII characters
