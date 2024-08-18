@@ -32,7 +32,7 @@ extended and used as base classes.
 
 ## Usage
 
-Install the contents of the `./upy/` directory on an RP2040 that has a recent
+Copy the contents of the `./upy/` directory on an RP2040 that has a recent
 version of MicroPython installed. The "main.py" file is used for the ItsyBitsy
 RP2040 and includes use of its NeoPixel. If you're using a different RP2040
 board you can use the "main_no_px.py" file instead, as that has no NeoPixel
