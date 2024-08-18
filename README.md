@@ -84,6 +84,15 @@ RP2040 you should see its NeoPixel flash a bright cyan blue three times,
 and then a dimmer continuous flash after that.
 
 
+## Hardware Installation
+
+The ItsyBitsy RP2040 uses pin 24 for SDA and pin 25 for SCL. You should also
+be sure to connect the GND pin to the common ground of your Raspberry Pi. If
+you're connecting it to your Pi via a USB connector you won't need to provide
+3.3V to the board as that will be provided via USB. So: just three wires, as
+per the photo.
+
+
 ## Testing
 
 You can then test to see if things are working by executing the `master.py`
@@ -104,17 +113,6 @@ SPACE and `~`. The response will be something like:
 ```
 If you're using an ItsyBitsy RP2040 the NeoPixel should flash green if the
 transmission was successful.
-
-
-## Next Steps
-
-The slave side code has been converted to two classes, I2CSlave to provide
-the core functionality, and I2CDriver which extends the base class by
-providing support for NeoPixel visual feedback.
-
-The next phase of this project will be to convert the `master.py` on the
-Pi to a Python class, so that it can be more easily extended and used as
-a base class.
 
 
 ## Usage
@@ -182,14 +180,21 @@ byte response codes, "OFF" (`0x30`) or "ON" (`0x31`) if the response from
 the I2CSlave is OKAY (0x4F); error codes are passed back to the master
 directly.
 
+The response.py file has been modified to accommodate the two new enumerated
+values as `VALUE_ON` and `VALUE_OFF`, so that entering "import sensor_test"
+from the Python REPL will return 'on' or 'off' depending on whether the IR
+sensor detects an obstacle within range.
 
-## Hardware Installation
 
-The ItsyBitsy RP2040 uses pin 24 for SDA and pin 25 for SCL. You should also
-be sure to connect the GND pin to the common ground of your Raspberry Pi. If
-you're connecting it to your Pi via a USB connector you won't need to provide
-3.3V to the board as that will be provided via USB. So: just three wires, as
-per the photo.
+## Next Steps
+
+The slave side code has been converted to two classes, I2CSlave to provide
+the core functionality, and I2CDriver which extends the base class by
+providing support for NeoPixel visual feedback.
+
+The next phase of this project will be to convert the `master.py` on the
+Pi to a Python class, so that it can be more easily extended and used as
+a base class.
 
 
 ## Support & Liability
