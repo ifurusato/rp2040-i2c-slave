@@ -109,8 +109,8 @@ transmission was successful.
 ## Next Steps
 
 The slave side code has been converted to two classes, I2CSlave to provide
-the core functionality, and I2CDriver that wraps that functionality in a
-class providing support for NeoPixel visual feedback.
+the core functionality, and I2CDriver which extends the base class by
+providing support for NeoPixel visual feedback.
 
 The next phase of this project will be to convert the `master.py` on the
 Pi to a Python class, so that it can be more easily extended and used as
@@ -153,6 +153,34 @@ values:
   _read_data = _i2cbus.read_byte_data(I2C_SLAVE_ADDRESS, CONFIG_REGISTER)
   _response = Response.from_value(_read_data)
 ```
+
+## Extending the I2CSlave or I2CDriver class
+
+This is an example of how to use this project to provide an I2C slave
+functionality for your own purposes.
+
+The I2CSlave class can be extended by your own class when you require
+the ability to respond to requests from an I2C master. An example of
+this is provided by the Sensor class, in `sensor.py` and its test script,
+`sensor_test.py`.
+
+![Infrared Sensor as a class.](./img/SensorExample.jpg)
+
+The hardware part of this example uses a Pololu Digital Distance Sensor
+(GP2Y0D810Z0F), a small green carrier board for a Sharp IR sensor, with
+a range of 10cm. The sensor has a single output pin that returns a high
+or low value as an output when it detects an obstacle within range. The
+sensor can be seen mounted on the breadboard at lower right, its red LED
+lit to indicate it detects the finger.
+
+The output from the sensor is connected with a pink wire to the Itsy Bitsy
+RP2040's GPIO pin 18, as seen at left. You don't have to use a pink wire.
+
+The software part of this example uses a Sensor class, which extends the
+I2CDriver class and overrides its output to return one of two newly-defined
+byte response codes, "OFF" (`0x30`) or "ON" (`0x31`) if the response from
+the I2CSlave is OKAY (0x4F); error codes are passed back to the master
+directly.
 
 
 ## Hardware Installation
