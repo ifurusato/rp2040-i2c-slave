@@ -9,9 +9,10 @@ byte as status. There is currently no facility for returning longer messages,
 though anyone wishing to contribute code to provide that feature is most
 welcome to do so.
 
-It is easily modified to work with any RP2040 but has been developed and
-targeted for the Adafruit ItsyBitsy RP2040 with its NeoPixel as a status
-indicator.
+The I2CSlave class works with any RP2040. There is also an I2CDriver class
+that wraps the core functionality, targeted for use with the Adafruit
+ItsyBitsy RP2040 with its NeoPixel as a status indicator. This leaves the
+test files as only a few lines long.
 
 The implementation uses Python (CPython) on the Raspberry Pi and MicroPython
 on the RP2040. It communicates over I2C address `0x44`, though this is easily
@@ -105,9 +106,13 @@ transmission was successful.
 
 ## Next Steps
 
-The next phase of this project will be to convert both the `master.py` on the
-Pi and the `main.py` on the slave to Python classes, so they can be more easily
-extended and used as base classes.
+The slave side code has been converted to two classes, I2CSlave to provide
+the core functionality, and I2CDriver that wraps that functionality in a
+class providing support for NeoPixel visual feedback.
+
+The next phase of this project will be to convert the `master.py` on the
+Pi to a Python class, so that it can be more easily extended and used as
+a base class.
 
 
 ## Usage
