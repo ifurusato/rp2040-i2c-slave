@@ -14,7 +14,7 @@ targeted for the Adafruit ItsyBitsy RP2040 with its NeoPixel as a status
 indicator.
 
 The implementation uses Python (CPython) on the Raspberry Pi and MicroPython
-on the RP2040. It communicates over I2C address 0x44, though this is easily
+on the RP2040. It communicates over I2C address `0x44`, though this is easily
 changed.
 
 The I2C communications of this repository are largely based on (and include
@@ -23,9 +23,16 @@ two files from) the original work by TraoreMorike as found at:
 * [Raspberry-Pico---I2C-Slave](https://github.com/TraoreMorike/Raspberry-Pico---I2C-Slave)
 
 
+## Next Steps
+
+The next phase of this project will be to convert both the `master.py` on the
+Pi and the `main.py` on the slave to Python classes, so they can be more easily
+extended and used as base classes.
+
+
 ## Usage
 
-Install the contents of the ./upy/ directory on an RP2040 that has a recent
+Install the contents of the `./upy/` directory on an RP2040 that has a recent
 version of MicroPython installed. The "main.py" file is used for the ItsyBitsy
 RP2040 and includes use of its NeoPixel. If you're using a different RP2040
 board you can use the "main_no_px.py" file instead, as that has no NeoPixel
