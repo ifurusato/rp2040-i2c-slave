@@ -23,6 +23,8 @@ two files from) the original work by TraoreMorike as found at:
 
 * [Raspberry-Pico---I2C-Slave](https://github.com/TraoreMorike/Raspberry-Pico---I2C-Slave)
 
+See FILES for a list of included files and their respective uses.
+
 
 ## Dependencies
 
