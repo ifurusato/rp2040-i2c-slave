@@ -28,7 +28,7 @@ two files from) the original work by TraoreMorike as found at:
 There are no external dependencies apart from a recent version of MicroPython,
 which can be downloaded from:
 
-* [MicroPython downloads[(https://micropython.org/download/)
+* [MicroPython downloads](https://micropython.org/download/)
 
 This project is currently using MicroPython v1.23.0.
 
