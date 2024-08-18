@@ -189,7 +189,7 @@ while True:
 
         elif state == s_i2c.I2CStateMachine.I2C_REQUEST:
             if len(payload) > 0:
-                show_color(COLOR_GREEN)
+                show_color(COLOR_YELLOW_GREEN)
                 response = OKAY
             else:
                 show_color(COLOR_RED)
@@ -199,7 +199,7 @@ while True:
                 s_i2c.Slave_Write_Data(response)
 
         elif state == s_i2c.I2CStateMachine.I2C_FINISH:
-            show_color(COLOR_BLUE)
+            show_color(COLOR_GREEN)
             reset()
 
         # now blink
