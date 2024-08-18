@@ -14,21 +14,26 @@ from enum import Enum
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 class Response(Enum):
-    __order__ = " INIT OKAY BAD_ADDRESS OUT_OF_SYNC INVALID_CHAR SOURCE_TOO_LARGE UNVALIDATED EMPTY_PAYLOAD PAYLOAD_TOO_LARGE UNKNOWN_ERROR "
+    # this variable must include all entries, whitespace-delimited
+    __order__ = " INIT OKAY BAD_ADDRESS OUT_OF_SYNC INVALID_CHAR SOURCE_TOO_LARGE UNVALIDATED EMPTY_PAYLOAD PAYLOAD_TOO_LARGE UNKNOWN_ERROR VALUE_OFF VALUE_ON "
     '''
     Provides an enumeration of response codes from the I2C Slave.
     These match the hard-coded values in the MicroPython file.
     '''
-    INIT              = ( 0, 'init',              0x10 )
-    OKAY              = ( 1, 'okay',              0x20 )
-    BAD_ADDRESS       = ( 2, 'bad address',       0x41 )
-    OUT_OF_SYNC       = ( 3, 'out of sync',       0x42 )
-    INVALID_CHAR      = ( 4, 'invalid character', 0x43 )
-    SOURCE_TOO_LARGE  = ( 5, 'source too large',  0x44 )
-    UNVALIDATED       = ( 6, 'unvalidated',       0x45 )
-    EMPTY_PAYLOAD     = ( 7, 'empty payload',     0x46 )
-    PAYLOAD_TOO_LARGE = ( 8, 'payload too large', 0x47 )
-    UNKNOWN_ERROR     = ( 9, 'unknown error',     0x48 )
+    INIT              = (  0, 'init',              0x10 )
+    OKAY              = (  1, 'okay',              0x4F )
+    BAD_ADDRESS       = (  2, 'bad address',       0x71 )
+    OUT_OF_SYNC       = (  3, 'out of sync',       0x72 )
+    INVALID_CHAR      = (  4, 'invalid character', 0x73 )
+    SOURCE_TOO_LARGE  = (  5, 'source too large',  0x74 )
+    UNVALIDATED       = (  6, 'unvalidated',       0x75 )
+    EMPTY_PAYLOAD     = (  7, 'empty payload',     0x76 )
+    PAYLOAD_TOO_LARGE = (  8, 'payload too large', 0x77 )
+    UNKNOWN_ERROR     = (  9, 'unknown error',     0x78 )
+
+    # example extension
+    VALUE_OFF         = ( 10, 'off',               0x30 )
+    VALUE_ON          = ( 11, 'on',                0x31 )
 
     # ignore the first param since it's already set by __new__
     def __init__(self, num, name, value):

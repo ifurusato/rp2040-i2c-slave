@@ -48,17 +48,17 @@ class I2CSlave(object):
     I2C_ADDRESS = 0x44
     MAX_CHARS   = 32
 
-    # response codes:
+    # response codes: (note: extension values <= 0x4F are considered 'okay')
     INIT              = 0x10
-    OKAY              = 0x20
-#   BAD_ADDRESS       = 0x41
-    OUT_OF_SYNC       = 0x42
-    INVALID_CHAR      = 0x43
-    SOURCE_TOO_LARGE  = 0x44
-    UNVALIDATED       = 0x45
-    EMPTY_PAYLOAD     = 0x46
-    PAYLOAD_TOO_LARGE = 0x47
-#   UNKNOWN_ERROR     = 0x48
+    OKAY              = 0x4F
+    BAD_ADDRESS       = 0x71
+    OUT_OF_SYNC       = 0x72
+    INVALID_CHAR      = 0x73
+    SOURCE_TOO_LARGE  = 0x74
+    UNVALIDATED       = 0x75
+    EMPTY_PAYLOAD     = 0x76
+    PAYLOAD_TOO_LARGE = 0x77
+    UNKNOWN_ERROR     = 0x78
 
     def __init__(self, i2c_id=I2C_ID, sda=SDA_PIN, scl=SCL_PIN, i2c_address=I2C_ADDRESS, blink=True, callback=None):
         super().__init__()
@@ -178,8 +178,8 @@ class I2CSlave(object):
                         self._response = self.EMPTY_PAYLOAD
                     # otherwise use existing response
                     while (self.s_i2c.is_Master_Req_Read()):
-                        self.s_i2c.Slave_Write_Data(self._response)
-
+#                       self.s_i2c.Slave_Write_Data(self._response)
+                        self.write_response(self._response)
                 elif self._state == self.s_i2c.I2CStateMachine.I2C_FINISH:
                     self.reset()
 
@@ -201,9 +201,16 @@ class I2CSlave(object):
                 self.reset()
                 while (self.s_i2c.is_Master_Req_Read()):
                     print("sending error response: {}".format(str(se)))
-                    self.s_i2c.Slave_Write_Data(se.code)
+#                   self.s_i2c.Slave_Write_Data(se.code)
+                    self.write_response(se.code)
             except Exception as e:
                 print('Exception raised: {}'.format(e))
+
+    def write_response(self, response):
+        '''
+        Writes the single byte response to the I2C bus.
+        '''
+        self.s_i2c.Slave_Write_Data(response)
 
     def status(self, message, color):
         '''

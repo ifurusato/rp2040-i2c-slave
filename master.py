@@ -55,7 +55,7 @@ try:
     _read_data = _i2cbus.read_byte_data(I2C_SLAVE_ADDRESS, CONFIG_REGISTER)
     print("read data: '{}'".format(_read_data))
     _response = Response.from_value(_read_data)
-    if _response is Response.OKAY:
+    if _response.value <= Response.OKAY.value:
         print("response: {}".format(_response.name))
     else:
         print("ERROR response: {}".format(_response.name))
