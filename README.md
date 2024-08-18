@@ -3,9 +3,15 @@
 ![ItsyBitsy RP2040 on the MR01](./img/ItsyBitsyRP2040.jpg)
 
 This provides a simple implementation for using an RP2040-based MCU as an
-I2C slave with a Raspberry Pi I2C master. It is easily modified to work
-with any RP2040 but has been developed and targeted for the Adafruit
-ItsyBitsy RP2040 with its NeoPixel as a status indicator.
+I2C slave with a Raspberry Pi I2C master, sending a one-way message of up
+to 32 ASCII characters to the slave from the master, returning a single
+byte as status. There is currently no facility for returning longer messages,
+though anyone wishing to contribute code to provide that feature is most
+welcome to do so.
+
+It is easily modified to work with any RP2040 but has been developed and
+targeted for the Adafruit ItsyBitsy RP2040 with its NeoPixel as a status
+indicator.
 
 The implementation uses Python (CPython) on the Raspberry Pi and MicroPython
 on the RP2040. It communicates over I2C address 0x44, though this is easily
