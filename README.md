@@ -138,7 +138,12 @@ EMPTY_PAYLOAD     = 0x46
 PAYLOAD_TOO_LARGE = 0x47
 UNKNOWN_ERROR     = 0x48
 ```
-On the Raspbery Pi side there is an Enum matching these values.
+On the Raspbery Pi side there is a Response Enum capable of matching these
+values:
+```
+  _read_data = _i2cbus.read_byte_data(I2C_SLAVE_ADDRESS, CONFIG_REGISTER)
+  _response = Response.from_value(_read_data)
+```
 
 
 ## Hardware Installation
