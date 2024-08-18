@@ -34,13 +34,13 @@ you'd need to rename it to "main.py".
 On the Raspberry Pi side, the provided "master.py" file expects a command
 line argument, which must be composed of a maximum of 32 ASCII characters
 between SPACE (32) and "~" (126). For example,
-'''
+```
   master.py "Send this message."
-'''
+```
 
 The I2C slave will receive the message and respond with a single byte status
 indicator. The hardcoded values can be found in the MicroPython slave file:
-'''
+```
 INIT              = 0x10
 OKAY              = 0x20
 BAD_ADDRESS       = 0x41
@@ -51,7 +51,7 @@ UNVALIDATED       = 0x45
 EMPTY_PAYLOAD     = 0x46
 PAYLOAD_TOO_LARGE = 0x47
 UNKNOWN_ERROR     = 0x48
-'''
+```
 On the Raspbery Pi side there is an Enum matching these values.
 
 
