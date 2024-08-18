@@ -25,7 +25,7 @@ if len(sys.argv) != 2:
     sys.exit(1)
 
 _value = sys.argv[1]
-print('-- value \"{}\"...'.format(_value))
+print('-- value \"{}\"'.format(_value))
 
 # constants ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
 
