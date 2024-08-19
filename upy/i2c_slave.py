@@ -67,7 +67,7 @@ class I2CSlave(object):
         self._enabled = False
         self._counter = itertools.count()
         print("starting I2C slave…")
-        self.s_i2c = i2c_slave(self.I2C_ID, sda=self.SDA_PIN, scl=self.SCL_PIN, slaveAddress=i2c_address)
+        self.s_i2c = i2c_slave(i2cID=i2c_id, sda=sda, scl=scl, slaveAddress=i2c_address)
         # initial conditions
         self._index = 0
         self._payload = ''
