@@ -26,7 +26,7 @@ class I2CPicoDriver(I2CSlave):
     Wraps the functionality of the I2CSlave class with callback support for
     providing visual feedback via the green LED on the Raspberry Pi Pico.
     '''
-    def __init__(self, i2c_address=0x43, blink=True):
+    def __init__(self, i2c_address=0x44, blink=True):
         # Pico green LED on pin 25
         self._led = Pin(25, Pin.OUT)
         I2CSlave.__init__(self, i2c_address=i2c_address, sda=16, scl=17, blink=True, callback=self.callback)
