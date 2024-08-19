@@ -12,7 +12,8 @@ welcome to do so.
 The I2CSlave class works with any RP2040. There is also an I2CDriver class
 that wraps the core functionality, targeted for use with the Adafruit
 ItsyBitsy RP2040 with its NeoPixel as a status indicator. This leaves the
-test files as only a few lines long.
+test files as only a few lines long. An I2CPicoDriver is available for use
+with the Raspberry Pi Pico RP2040, blinking its LED as a status indicator.
 
 The implementation uses Python (CPython) on the Raspberry Pi and MicroPython
 on the RP2040. It communicates over I2C address `0x44`, though this is easily
