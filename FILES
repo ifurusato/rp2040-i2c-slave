@@ -3,6 +3,7 @@ RP2040 I2C Slave Files
 classes:
     upy/i2c_slave.py             the I2CSlave class: core functionality
     upy/i2c_driver.py            the I2CDriver class: a wrapper around I2CSlave that provides NeoPixel support
+	upy/i2c_pico_driver.py       the I2CPicoDriver class: a wrapper around I2CSlave that provides RPi Pico LED support
 
 support files:
     upy/RP2040_Slave.py          base I2C slave communications support
@@ -14,6 +15,7 @@ test files:
     upy/i2c_slave_test.py        tests I2CSlave core functionality, no NeoPixel
     upy/main_no_px.py            'main.py' class that supports I2C slave for generic RP2040 (unmaintained)
     upy/main.py                  'main.py' class that supports I2C slave for ItsyBitsy RP2040 (unmaintained)
+	upy/i2c_pico_driver_test.py  test for I2CPicoDriver, for use with Raspberry Pi Pico
 
 utility files:
     response.py                  enumeration of response codes
@@ -21,3 +23,5 @@ utility files:
     upy/itertools.py             partial MP implementation of itertools
     upy/neopixel.py              support for NeoPixel
     upy/stringbuilder.py         similar to Java StringBuilder
+
+
