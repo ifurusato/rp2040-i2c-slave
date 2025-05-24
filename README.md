@@ -8,13 +8,14 @@ to 32 ASCII characters to the slave from the master, returning a single
 byte as status. There is currently no facility for returning longer messages,
 though this is a future goal of this project.
 
-The I2CSlave class in theory works with any RP2040 board. There are 
-implementations here for three types of displays: a Neopixel, a WS2812 
-RGB LED, or the Pico's single red LED.
-
 The implementation uses Python (CPython) on the Raspberry Pi as the master
 and MicroPython on the RP2040 as the slave. It communicates over default
 I2C address `0x43`, though this is easily changed.
+
+The I2CSlave class in theory works with any RP2040 board. There are 
+implementations here for three types of displays: a Neopixel (as used on
+the Adafruit ItsyBitsy RP2040 and others), a WS2812 RGB LED (as used on the
+Pimoroni Motor 2040), or the Raspberry Pi Pico's single red LED.
 
 The I2C communications of this repository are largely based on and include
 two significantly modified files from the original work by Morike Traore as
