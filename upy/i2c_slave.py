@@ -77,7 +77,7 @@ class I2CSlave:
                     return      
                 self.state = self.s_i2c.handle_event()
                 if self.state == self.s_i2c.I2CStateMachine.I2C_START:
-                    self._log.debug("I2C_START")
+                    self._log.info("💮 I2C_START")
                     response = RESPONSE_STARTED
                 if self.state == self.s_i2c.I2CStateMachine.I2C_RECEIVE:
                     response = self._handle_receive()
@@ -122,6 +122,8 @@ class I2CSlave:
                     rx_step = 3
 
             elif rx_step == 3:
+                if self._controller: # halt timer if it's running
+                    self._controller.stop()
                 if byte == 0x01:  # end marker
                     self._log.info("received end marker.")
                     return RESPONSE_VALIDATED

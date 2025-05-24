@@ -12,6 +12,7 @@
 
 import sys
 import utime
+from machine import Timer
 import uasyncio as asyncio
 from colorama import Fore, Style
 
@@ -33,6 +34,8 @@ class Controller:
         self._display = display
         self._processing_task = None
         self._enabled = False
+        self._timer   = None
+        self._on      = False
         self._log.info('ready.')
 
     # ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
@@ -108,8 +111,8 @@ class Controller:
                 self.enable()
             elif _command.startswith('disa'):
                 self.disable()
-            elif _command.startswith('go'):
-                self.go()
+            elif _command.startswith('start'):
+                self.start()
             elif _command.startswith('stop'):
                 self.stop()
             elif _command.startswith('red'):
@@ -147,14 +150,33 @@ class Controller:
         return default
 
     # ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
-    def stop(self):
-        self._log.info('stop.')
-        self.show_color(COLOR_BLUE)
+    def start(self):
+        self._log.info('start.')
+        self._start_timer();
+ 
+    def _start_timer(self):
+        if not self._timer:
+            self._timer = Timer()
+            self._timer.init(period=1000, mode=Timer.PERIODIC, callback=self._toggle_led)
+
+    def _toggle_led(self, arg):
+        self._on = not self._on
+        if self._on:
+            self.show_color(COLOR_DARK_CYAN)
+            utime.sleep_ms(50)
+            self.show_color(COLOR_BLACK)
+        else:
+            pass
 
     # ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
-    def go(self):
-        self._log.info('go.')
-        self.show_color(COLOR_GREEN)
+    def stop(self):
+        self._log.info('stop.')
+        self._stop_timer();
+
+    def _stop_timer(self):
+        if self._timer:
+            self._timer.deinit()
+        self._timer = None
 
     # ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
     def help(self):
@@ -167,8 +189,8 @@ controller commands:
     green             set the RGB LED to green
     blue              set the RGB LED to blue
     black             set the RGB LED to black (off)
-    go                pretend to start a motor
-    stop              pretend to stop a motor
+    start             start a timer that blinks the LED
+    stop              stop the timer
     wait [n]          asynchronously wait n seconds (default 5)
 
     ''' + Style.RESET_ALL)
