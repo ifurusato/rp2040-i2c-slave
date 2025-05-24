@@ -50,7 +50,7 @@ the easiest way to deploy the code and test the project is using *rshell*.
 Once you've installed the files, you'll want to modify the `DISPLAY_TYPE`
 in main.py to your actual display hardware: 'neopixel', 'ws2812' or 'pico'.
 
-(TL;DR: install the master.py and ./lib/ directory on your Raspberry Pi,
+(TL;DR: install the master.py and ./core/ directory on your Raspberry Pi,
 the contents of the ./upy/ directory on your RP2040.)
 
 For discussion purposes, let's assume you've cloned the repository to the
