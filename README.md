@@ -9,11 +9,13 @@ byte as status. There is currently no facility for returning longer messages,
 though this is a future goal of this project.
 
 The I2CSlave class works with any RP2040. The RP2040 requires 10K pullup
-resistors on SDA and SCL to operate correctly.
+resistors on SDA and SCL to operate correctly. There are implementations for
+three types of displays: a Neopixel, a WS2812 RGB LED, or the Pico's single
+red LED.
 
-The implementation uses Python (CPython) on the Raspberry Pi and MicroPython
-on the RP2040. It communicates over default I2C address `0x43`, though this
-is easily changed.
+The implementation uses Python (CPython) on the Raspberry Pi as the master
+and MicroPython on the RP2040 as the slave. It communicates over default
+I2C address `0x43`, though this is easily changed.
 
 The I2C communications of this repository are largely based on and include
 two significantly modified files from the original work by Morike Traore as
