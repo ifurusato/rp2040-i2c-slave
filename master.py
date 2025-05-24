@@ -17,10 +17,10 @@ from datetime import datetime as dt
 from colorama import init, Fore, Style
 init()
 
-from lib.logger import Logger, Level
-from lib.controller import Controller
-from lib.payload import Payload
-from lib.response import*
+from core.logger import Logger, Level
+from core.controller import Controller
+from core.payload import Payload
+from core.response import*
 
 def parse_args():
     # create the argument parser
