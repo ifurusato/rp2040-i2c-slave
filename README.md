@@ -15,7 +15,7 @@ I2C address `0x43`, though this is easily changed.
 The I2CSlave class in theory works with any RP2040 board. There are 
 implementations here for three types of displays: a Neopixel (as used on
 the Adafruit ItsyBitsy RP2040 and others), a WS2812 RGB LED (as used on the
-Pimoroni Motor 2040), or the Raspberry Pi Pico's single red LED.
+Pimoroni Motor 2040), or the Raspberry Pi Pico's single green LED.
 
 The I2C communications of this repository are largely based on and include
 two significantly modified files from the original work by Morike Traore as
@@ -46,6 +46,9 @@ A handy tool for working with MicroPython is rshell, available at:
 
 Once you've installed a recent version of MicroPython on your RP2040 board,
 the easiest way to deploy the code and test the project is using *rshell*.
+
+Once you've installed the files, you'll want to modify the `DISPLAY_TYPE`
+in main.py to your actual display hardware: 'neopixel', 'ws2812' or 'pico'.
 
 (TL;DR: install the master.py and ./lib/ directory on your Raspberry Pi,
 the contents of the ./upy/ directory on your RP2040.)
