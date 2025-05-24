@@ -8,10 +8,9 @@ to 32 ASCII characters to the slave from the master, returning a single
 byte as status. There is currently no facility for returning longer messages,
 though this is a future goal of this project.
 
-The I2CSlave class works with any RP2040. The RP2040 requires 10K pullup
-resistors on SDA and SCL to operate correctly. There are implementations for
-three types of displays: a Neopixel, a WS2812 RGB LED, or the Pico's single
-red LED.
+The I2CSlave class in theory works with any RP2040 board. There are 
+implementations here for three types of displays: a Neopixel, a WS2812 
+RGB LED, or the Pico's single red LED.
 
 The implementation uses Python (CPython) on the Raspberry Pi as the master
 and MicroPython on the RP2040 as the slave. It communicates over default
@@ -46,6 +45,9 @@ A handy tool for working with MicroPython is rshell, available at:
 
 Once you've installed a recent version of MicroPython on your RP2040 board,
 the easiest way to deploy the code and test the project is using *rshell*.
+
+(TL;DR: install the master.py and ./lib/ directory on your Raspberry Pi,
+the contents of the ./upy/ directory on your RP2040.)
 
 For discussion purposes, let's assume you've cloned the repository to the
 following directory: `/home/pi/workspace/rp2040-i2c-slave/upy`
@@ -85,12 +87,39 @@ RP2040 you should see its NeoPixel flash a cyan blue three times.
 You can then go back to the Pi and execute master.py with a payload argument.
 
 
+## Files
+
+There are only a few files that you need pay attention to:
+
+On the Raspberry Pi:
+
+* master.py           : the I2C master as a CLI app
+
+On the RP2040:
+
+* upy/main.py         : the I2C slave application entry point
+* upy/controller.py   : a generic payload processor
+
+You may want to modify main.py to integrate with your own code or
+application.
+
+You will want to modify the Controller to process your payload content
+and perform any specific functions.
+
+You won't likely need to modify any of the other files unless you want
+to extend some existing functionality. 
+
+See FILES for the complete list of files.
+
+
 ## Hardware Installation
 
 The ItsyBitsy RP2040 uses pin GPIO2 for SDA and pin GPIO3 for SCL on bus 1.
 You should also be sure to connect the GND pin to the common ground of your
 Raspberry Pi. If you're connecting it to your Pi via a USB connector you
 won't need to provide 3.3V to the board as that will be provided via USB.
+
+The RP2040 requires 10K pullup resistors on SDA and SCL to operate correctly. 
 
 
 ## Testing
