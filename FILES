@@ -1,0 +1,28 @@
+LIST OF FILES
+=============
+
+BOARD                      : one liner board description
+
+I2C slave:
+  main.py                  : executable application entry point
+  controller.py            : generic payload processor
+  payload.py               : payload wrapper with CRC
+  response.py              : transaction responses
+  i2c_slave.py             : basic I2C slave as a loop
+  RP2040_I2C_Registers.py  : RP2040 constants
+  rp2040_slave.py          : RP2040 I2C slave implementation
+
+utility and support files:
+  core/logger.py           : console logger
+  colorama.py              : console colored output
+  colors.py                : enumeration of some RGB colors
+  itertools.py             : MicroPython port of itertools
+
+display files:
+
+  neopixel.py              : support for Neopixel RGB LED
+  abstract_display.py      : API for displays (LEDs)
+  ws2812_display.py        : implementation for WS2812 RGB LED
+  neopixel_display.py      : implementation for Neopixel
+  pico_display.py          : implementation for Pico red LED
+
