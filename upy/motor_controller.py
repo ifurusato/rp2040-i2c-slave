@@ -11,6 +11,7 @@
 #
 
 import sys
+import utime
 from machine import Timer
 import uasyncio as asyncio
 from colorama import Fore, Style
