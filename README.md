@@ -12,10 +12,15 @@ The implementation uses Python (CPython) on the Raspberry Pi as the master
 and MicroPython on the RP2040 as the slave. It communicates over default
 I2C address `0x43`, though this is easily changed.
 
-The I2CSlave class in theory works with any RP2040 board. There are 
-implementations here for three types of displays: a Neopixel (as used on
-the Adafruit ItsyBitsy RP2040 and others), a WS2812 RGB LED (as used on the
-Pimoroni Motor 2040), or the Raspberry Pi Pico's single green LED.
+There is a base class called Controller, and an example subclass of this
+as a fake motor controller called MotorController, used as a demonstration
+of how to handle sent command strings.
+
+The I2CSlave class in theory works with any RP2040 board. This includes
+implementations for three types of displays: a Neopixel (as used on the
+Adafruit ItsyBitsy RP2040 and others), a WS2812 RGB LED (as used on the
+Pimoroni Motor 2040), or the Raspberry Pi Pico's single green LED. There
+is a single variable in main.py to select which is used.
 
 The I2C communications of this repository are largely based on and include
 two significantly modified files from the original work by Morike Traore as
@@ -30,12 +35,12 @@ This repository replaces an earlier code base, now labeled "legacy":
 
 ## Dependencies
 
+This project is currently using CPython 3.11.2 and MicroPython v1.25.0.
+
 There are no external dependencies apart from a recent version of MicroPython,
 which can be downloaded from:
 
 * [MicroPython downloads](https://micropython.org/download/)
-
-This project is currently using CPython 3.11.2 and MicroPython v1.25.0.
 
 A handy tool for working with MicroPython is rshell, available at:
 
@@ -97,21 +102,28 @@ There are only a few files that you need pay attention to:
 
 On the Raspberry Pi:
 
-* master.py           : the I2C master as a CLI app
+* master.py                : the I2C master as a CLI app
 
 On the RP2040:
 
-* upy/main.py         : the I2C slave application entry point
-* upy/controller.py   : a generic payload processor
+* upy/main.py              : the I2C slave application entry point
+* upy/controller.py        : a generic payload processor
+* upy/motor_controller.py  : extends controller as a fake motor controller
 
 You may want to modify main.py to integrate with your own code or
-application.
+application. You may modify or replace the MotorController to handle
+your own set of commands. Once you have things running, using a REPL
+on the RP2040 so you can see the console, try
+
+  master.py help
+
+to see what commands the MotorController supports.
 
 You will want to modify the Controller to process your payload content
 and perform any specific functions.
 
 You won't likely need to modify any of the other files unless you want
-to extend some existing functionality. 
+to extend some existing functionality.
 
 See FILES for the complete list of files.
 
@@ -123,7 +135,7 @@ You should also be sure to connect the GND pin to the common ground of your
 Raspberry Pi. If you're connecting it to your Pi via a USB connector you
 won't need to provide 3.3V to the board as that will be provided via USB.
 
-The RP2040 requires 10K pullup resistors on SDA and SCL to operate correctly. 
+The RP2040 requires 10K pullup resistors on SDA and SCL to operate correctly.
 
 
 ## Testing

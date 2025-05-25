@@ -20,7 +20,8 @@ from core.logger import Level, Logger
 from colors import*
 from colorama import Fore, Style
 from i2c_slave import I2CSlave
-from controller import Controller
+#from controller import Controller
+from motor_controller import MotorController
 from payload import Payload
 from response import*
 
@@ -76,7 +77,7 @@ utime.sleep_ms(50)
 i2c_slave = None
 try:
     _log.info('start I2C slave…')
-    _controller = Controller(display)
+    _controller = MotorController(display)
     i2c_slave = I2CSlave(i2c_bus_id=I2C_BUS_ID, sda=SDA_PIN, scl=SCL_PIN, i2c_address=I2C_ADDRESS, display=display, controller=_controller)
     _controller.start()
     i2c_slave.enable()
