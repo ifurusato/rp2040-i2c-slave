@@ -35,6 +35,36 @@ class Response:
     def description(self):
         return self._description
 
+    @classmethod
+    def from_value(cls, value: int):
+        for instance in cls._instances:
+            if instance.value == value:
+                return instance
+        return None
+
+    @classmethod
+    def from_label(cls, label: str):
+        label = label.upper()
+        for instance in cls._instances:
+            if instance.label == label:
+                return instance
+        return None
+
+    @classmethod
+    def from_description(cls, description: str):
+        description = description.lower()
+        for instance in cls._instances:
+            if instance.description == description:
+                return instance
+        return None
+
+    @classmethod
+    def from_label(cls, label):
+        for instance in cls._instances:
+            if instance.label == label:
+                return instance
+        return None
+
     def __int__(self):
         return self._value
 
@@ -47,19 +77,15 @@ class Response:
     def __format__(self, format_spec):
         return format(self._value, format_spec)
 
-    @classmethod
-    def from_value(cls, value):
-        for instance in cls._instances:
-            if instance.value == value:
-                return instance
-        return None
-
-    @classmethod
-    def from_label(cls, label):
-        for instance in cls._instances:
-            if instance.label == label:
-                return instance
-        return None
+    def __eq__(self, other):
+        if isinstance(other, Response):
+            return self.value == other.value
+        if isinstance(other, int):
+            return self.value == other
+        if isinstance(other, str):
+            # Compare case-insensitive against label or description
+            return other.upper() == self.label or other.lower() == self.description.lower()
+        return NotImplemented
 
 # define response codes
 RESPONSE_INIT               = Response(0x10, "REIN", "initial")

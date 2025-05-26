@@ -35,18 +35,6 @@ class Response:
     def description(self):
         return self._description
 
-    def __int__(self):
-        return self._value
-
-    def __index__(self):
-        return self._value  # Allows use in bytes(), bytearray(), etc.
-
-    def __repr__(self):
-        return f"<Response{self._label} (0x{self._value:02X})>"
-
-    def __format__(self, format_spec):
-        return format(self._value, format_spec)
-
     @classmethod
     def from_value(cls, value: int):
         for instance in cls._instances:
@@ -76,6 +64,28 @@ class Response:
             if instance.label == label:
                 return instance
         return None
+
+    def __int__(self):
+        return self._value
+
+    def __index__(self):
+        return self._value  # Allows use in bytes(), bytearray(), etc.
+
+    def __repr__(self):
+        return f"<Response{self._label} (0x{self._value:02X})>"
+
+    def __format__(self, format_spec):
+        return format(self._value, format_spec)
+
+    def __eq__(self, other):
+        if isinstance(other, Response):
+            return self.value == other.value
+        if isinstance(other, int):
+            return self.value == other
+        if isinstance(other, str):
+            # Compare case-insensitive against label or description
+            return other.upper() == self.label or other.lower() == self.description.lower()
+        return NotImplemented
 
 # define response codes
 RESPONSE_INIT               = Response(0x10, "REIN", "initial")

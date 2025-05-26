@@ -87,12 +87,12 @@ class I2CSlave:
                     response = self._handle_request(response)
                     # report how fast the request was handled
                     _elapsed_ms = utime.ticks_diff(utime.ticks_ms(), start_time)
-                    self._log.info("request complete: {}ms elapsed.".format(_elapsed_ms))
+                    self._log.info("request returned: {}ms elapsed.".format(_elapsed_ms))
                 if self.state == self.s_i2c.I2CStateMachine.I2C_FINISH:
                     response = self._handle_finish()
                     # report how fast the complete process took
                     _elapsed_ms = utime.ticks_diff(utime.ticks_ms(), start_time)
-                    self._log.info(Style.DIM + "request finished: {}ms elapsed.".format(_elapsed_ms))
+                    self._log.info(Style.DIM + "request complete: {}ms elapsed.".format(_elapsed_ms))
                     self.reset_transaction()
             except Exception as e:
                 self._log.error("{} raised in I2C transaction: {}".format(type(e), e))

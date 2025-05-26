@@ -49,10 +49,14 @@ def main():
         if _response is None:
             raise ValueError('null response.')
         elif isinstance(_response, Response):
-            if _response != RESPONSE_OKAY:
-                _log.info("response: {}; {:5.2f}ms elapsed.".format(_response.description, elapsed_ms))
+            if _response == RESPONSE_OKAY:
+                _log.info("response: "
+                        + Fore.GREEN + "'{}'".format(_response.description)
+                        + Fore.CYAN + "; {:5.2f}ms elapsed.".format(elapsed_ms))
             else:
-                _log.warning("response: {}; {:5.2f}ms elapsed.".format(_response.description, elapsed_ms))
+                _log.warning("response: "
+                        + Fore.RED + "'{}'".format(_response.description)
+                        + Fore.WHITE + "; {:5.2f}ms elapsed.".format(elapsed_ms))
         elif not isinstance(_response, Response):
             raise ValueError('expected Response, not {}.'.format(type(_response)))
         else:

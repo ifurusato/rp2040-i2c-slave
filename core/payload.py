@@ -52,7 +52,7 @@ class Payload:
         '''
         Encode command as 32 character payload to bytes: 31 ASCII characters + 1 CRC byte = 32 bytes.
         '''
-        payload  = self._command.ljust(31).encode('ascii') # pad to 31 characters, then ASCII encode
+        payload = (self._command + ' ' * 31)[:31].encode('ascii') # pad or truncate, then encode in one line
         crc = self._crc8_ccitt(payload)
         return payload + bytes([crc])
 
