@@ -7,7 +7,7 @@
 #
 # author:   Murray Altheim
 # created:  2025-05-25
-# modified: 2025-05-25
+# modified: 2025-05-26
 #
 
 import sys
@@ -21,7 +21,7 @@ from core.logger import Level, Logger
 from controller import Controller
 from response import*
 
-class MotorController(Controller):
+class DemoController(Controller):
     '''
     Extends Controller with motor-specific and some other demonstration commands.
     '''
@@ -78,7 +78,7 @@ class MotorController(Controller):
                 await super().handle_command(command)
 
         except Exception as e:
-            self._log.error("MotorController error: {}".format(e))
+            self._log.error("DemoController error: {}".format(e))
             sys.print_exception(e)
             self.show_color(COLOR_RED)
             return RESPONSE_UNKNOWN_ERROR
