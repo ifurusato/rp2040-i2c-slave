@@ -2,8 +2,8 @@
 
 ![ItsyBitsy RP2040 on the MR01](./img/ItsyBitsyRP2040.jpg)
 
-This provides a simple implementation for using an RP2040-based MCU as an
-I2C slave with a Raspberry Pi I2C master, sending a one-way message of up
+This provides a simple implementation for using an RP2040-based microcontroller
+as an I2C slave with a Raspberry Pi I2C master, sending a one-way message of up
 to 32 ASCII characters as a Payload to the slave from the master, returning
 the same as a response.
 
@@ -12,14 +12,17 @@ and MicroPython on the RP2040 as the slave. It communicates over default
 I2C address `0x43`, though this is easily changed.
 
 There is a base class called Controller, and an example subclass of this
-as a fake MotorController, used as a demonstration of how to handle sent
+as a (fake) MotorController, used as a demonstration of how to handle sent
 command strings, including an async wait and a Timer.
 
 The I2CSlave class in theory works with any RP2040 board. This includes
-implementations for three types of displays: a Neopixel (as used on the
-Adafruit ItsyBitsy RP2040 and others), a WS2812 RGB LED (as used on the
-Pimoroni Motor 2040), or the Raspberry Pi Pico's single green LED. There
-is a single variable in main.py to select which is used.
+"display" implementations for three types: 
+
+* a Neopixel (as used on the Adafruit ItsyBitsy RP2040 and others), 
+* a WS2812 RGB LED (as used on the Pimoroni Motor 2040), 
+* or the Raspberry Pi Pico's single green LED. 
+
+There is a single variable in main.py to select which is used.
 
 The I2C communications of this repository are largely based on and include
 two significantly modified files from the original work by Morike Traore as
