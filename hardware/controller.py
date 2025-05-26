@@ -7,7 +7,7 @@
 #
 # author:   Murray Altheim
 # created:  2024-08-13
-# modified: 2025-05-24
+# modified: 2025-05-26
 #
 
 import traceback
@@ -17,8 +17,8 @@ from colorama import init, Fore, Style
 init()
 
 from core.logger import Logger, Level
-from core.payload import Payload 
-from core.response import*
+from hardware.payload import Payload 
+from hardware.response import*
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 class Controller:

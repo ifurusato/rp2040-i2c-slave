@@ -18,9 +18,9 @@ from colorama import init, Fore, Style
 init()
 
 from core.logger import Logger, Level
-from core.controller import Controller
-from core.payload import Payload
-from core.response import*
+from hardware.controller import Controller
+from hardware.payload import Payload
+from hardware.response import*
 
 def parse_args():
     # create the argument parser

@@ -7,7 +7,7 @@
 #
 # author:   Murray Altheim
 # created:  2025-05-06
-# modified: 2025-05-24
+# modified: 2025-05-26
 #
 # I2C/application response codes, provides an int value (e.g., 0x4F),
 # a label (e.g., "REOK"), and a description (e.g., "okay").
