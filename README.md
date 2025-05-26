@@ -166,7 +166,6 @@ If you're using an ItsyBitsy RP2040 the NeoPixel should turn green if the
 transmission was successful.
 
 Note that this only supports ASCII strings of up to 31 characters.
-The response will be something like:
 
 
 ## Usage
