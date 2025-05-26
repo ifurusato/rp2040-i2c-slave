@@ -11,16 +11,16 @@ The implementation uses Python (CPython) on the Raspberry Pi as the master
 and MicroPython on the RP2040 as the slave. It communicates over default
 I2C address `0x43`, though this is easily changed.
 
-There is a base class called Controller, and an example subclass of this
-as a (fake) MotorController, used as a demonstration of how to handle sent
+There is a base class called `Controller`, and an example subclass of this
+as a (fake) `MotorController`, used as a demonstration of how to handle sent
 command strings, including an async wait and a Timer.
 
-The I2CSlave class in theory works with any RP2040 board. This includes
-"display" implementations for three types: 
+The `I2CSlave` class in theory works with any RP2040 board. This includes
+"display" implementations for three types:
 
-* a Neopixel (as used on the Adafruit ItsyBitsy RP2040 and others), 
-* a WS2812 RGB LED (as used on the Pimoroni Motor 2040), 
-* or the Raspberry Pi Pico's single green LED. 
+* a Neopixel (as used on the Adafruit ItsyBitsy RP2040 and others),
+* a WS2812 RGB LED (as used on the Pimoroni Motor 2040),
+* or the Raspberry Pi Pico's single green LED.
 
 There is a single variable in main.py to select which is used.
 
@@ -44,7 +44,7 @@ which can be downloaded from:
 
 * [MicroPython downloads](https://micropython.org/download/)
 
-A handy tool for working with MicroPython is rshell, available at:
+Rshell is a handy tool for working with MicroPython, available at:
 
 * [rshell](https://github.com/dhylands/rshell)
 
@@ -82,7 +82,7 @@ where the `.` indicates the current working directory, e.g.,
   Adding /pyboard/RP2040_I2C_Registers.py
   [...]
 ```
-You can either `exit` rshell and push the board's RST button to execute the
+You can either exit rshell and push the board's RST button to execute the
 main.py script, or enter the Python REPL and `import main` (when importing
 you don't include the file extension) to execute its code:
 ```
@@ -92,33 +92,39 @@ you don't include the file extension) to execute its code:
   >>>
   >>> import main
 ```
+The advantage of the latter is that you can watch what's going on from the
+console.
+
 This will start I2C slave mode on the RP2040. If you're using an ItsyBitsy
 RP2040 you should see its NeoPixel flash a cyan blue three times.
 
-You can then go back to the Pi and execute master.py with a payload argument.
+You can then go back to the Pi and execute master.py with a payload argument
+such as:
+```
+  master.py green
+```
 
 
 ## Files
 
-There are only a few files that you need pay attention to:
+There are only a few files that you need pay attention to. On the Raspberry
+Pi:
 
-On the Raspberry Pi:
-
-* master.py                : the I2C master as a CLI app
+* `master.py`                : the I2C master as a CLI app
 
 On the RP2040:
 
-* upy/main.py              : the I2C slave application entry point
-* upy/controller.py        : a generic payload processor
-* upy/motor_controller.py  : extends controller as a fake motor controller
+* `upy/main.py`              : the I2C slave application entry point
+* `upy/controller.py`        : a generic payload processor
+* `upy/motor_controller.py`  : extends controller as a fake motor controller
 
 You may want to modify main.py to integrate with your own code or
 application. You may modify or replace the MotorController to handle
 your own set of commands. Once you have things running, using a REPL
 on the RP2040 so you can see the console, try
-
+```
   master.py help
-
+```
 to see what commands the MotorController supports.
 
 You will want to modify the Controller to process your payload content
