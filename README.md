@@ -128,7 +128,9 @@ on the RP2040 so you can see the console, try
 to see what commands the MotorController supports.
 
 You will want to modify the Controller to process your payload content
-and perform any specific functions.
+and perform any specific functions. Note that the Payload and Response
+classes are identical between the master and slave; the Controller classes
+are different.
 
 You won't likely need to modify any of the other files unless you want
 to extend some existing functionality.
