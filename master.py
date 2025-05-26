@@ -48,10 +48,13 @@ def main():
         elapsed_ms = (dt.now() - start_time).total_seconds() * 1000.0
         if _response is None:
             raise ValueError('null response.')
+        elif isinstance(_response, Response):
+            if _response != RESPONSE_OKAY:
+                _log.info("response: {}; {:5.2f}ms elapsed.".format(_response.description, elapsed_ms))
+            else:
+                _log.warning("response: {}; {:5.2f}ms elapsed.".format(_response.description, elapsed_ms))
         elif not isinstance(_response, Response):
             raise ValueError('expected Response, not {}.'.format(type(_response)))
-        elif _response != RESPONSE_OKAY:
-            _log.info("response: {}; {:5.2f}ms elapsed.".format(_response.description, elapsed_ms))
         else:
             _log.error("error response: {}; {:5.2f}ms elapsed.".format(_response.description, elapsed_ms))
 

@@ -30,13 +30,13 @@ class MotorController(Controller):
         self._log = Logger('motor', level)
         self._motor_speed = 0
         self._motor_enabled = False
-        self._log.info('motor controller ready.')
+        self._log.info('ready.')
 
     async def handle_command(self, command):
         '''
         Extended async processor for motor-specific commands.
         '''
-        self._log.info("MotorController processing command: '{}'".format(command))
+#       self._log.debug("handling command: '{}'".format(command))
         try:
             if command.startswith('help'):
                 self.help()
@@ -73,7 +73,6 @@ class MotorController(Controller):
                 self._log.info("waiting for {:.2f} seconds.".format(_duration))
                 await asyncio.sleep(_duration)
                 self.show_color(COLOR_DARK_VIOLET)
-
             else:
                 # delegate to base class if not processed ┈┈┈┈┈┈┈┈┈┈┈┈
                 await super().handle_command(command)
@@ -96,11 +95,19 @@ class MotorController(Controller):
             pass
         return default
 
+    # ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+    def validated(self):
+#       self._log.debug("validated.")
+        if self._timer:
+            self.stop()
+        super().validated()
+
     # help ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
     def help(self):
         print(Fore.CYAN + '''
 motor controller commands:
-    
+
+    help              prints this help
     enable            enable controller
     disable           disable and exit the controller
     motor-on          turn on the fake motor
@@ -147,11 +154,11 @@ motor controller commands:
     # start and stop a timer ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
     def start(self):
         if not self._timer:
-            self._log.info('start.')
+            self._log.info('timer: ' + Fore.GREEN + 'start')
             self._timer = Timer()
             self._timer.init(period=1000, mode=Timer.PERIODIC, callback=self._toggle_led)
         else:
-            self._log.warning('already started.')
+            self._log.warning('timer already started.')
 
     def _toggle_led(self, arg):
         self._on = not self._on
@@ -164,10 +171,10 @@ motor controller commands:
 
     def stop(self):
         if self._timer:
-            self._log.info('stop.')
+            self._log.info('timer: ' + Fore.GREEN + 'stop')
             self._timer.deinit()
         else:
-            self._log.warning('already stopped.')
+            self._log.warning('timer already stopped.')
         self._timer = None
 
 #EOF

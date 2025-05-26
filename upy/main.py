@@ -58,6 +58,7 @@ def show_color(color):
     '''
     Display the color on the NeoPixel.
     '''
+    _log.debug(Style.DIM + "show color: {}".format(color.description))
     display.show_color(color)
 
 # main ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈

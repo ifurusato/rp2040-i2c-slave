@@ -69,8 +69,9 @@ class Controller:
     def show_color(self, color):
         '''
         Display the color on the display device.
-        ''' 
+        '''
         if self._display:
+            self._log.debug(Style.DIM + 'show color: {}'.format(color.description))
             self._display.show_color(color)
 
     # ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
@@ -85,7 +86,7 @@ class Controller:
             self._log.debug('task created.')
             # ensure the event loop is running
             asyncio.get_event_loop().run_forever() # keep the event loop running
-            self._log.info(Style.DIM + 'payload processing complete.')
+#           self._log.debug('payload processing complete.')
             return RESPONSE_OKAY
         elif self._processing_task.done():
             self._processing_task = None
@@ -97,12 +98,12 @@ class Controller:
     # ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
     async def handle_command(self, command):
         '''
-        Async payload processor.
+        Async payload processor. This understands 'help', 'enable' and 'disable',
+        and is meant to be overridden by subclasses.
         '''
-        self._log.info("process command '{}'…".format(command))
+#       self._log.debug("handling command: " + Fore.GREEN + "'{}'".format(command))
         try:
             self.show_color(COLOR_SKY_BLUE)
-            self._log.info("command: " + Fore.GREEN + "'{}'".format(command))
             if command == 'help':
                 self.help()
             elif command.startswith('enab'):
@@ -112,7 +113,6 @@ class Controller:
             else:
                 self._log.warning("unknown command: '{}'".format(command))
                 self.show_color(COLOR_ORANGE)
-
         except Exception as e:
             self._log.error("error processing command: {}".format(e))
             sys.print_exception(e)
@@ -122,10 +122,19 @@ class Controller:
             self._processing_task = None
 
     # ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+    def validated(self):
+        '''
+        This is called upon validating a payload has been successfully received.
+        '''
+#       self._log.debug("validated.")
+        pass
+
+    # ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
     def help(self):
         print(Fore.CYAN + '''
 controller commands:
-    
+
+    help              prints this help
     enable            enable controller
     disable           disable and exit the controller
 

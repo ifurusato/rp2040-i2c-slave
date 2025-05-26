@@ -48,9 +48,25 @@ class Response:
         return format(self._value, format_spec)
 
     @classmethod
-    def from_value(cls, value):
+    def from_value(cls, value: int):
         for instance in cls._instances:
             if instance.value == value:
+                return instance
+        return None
+
+    @classmethod
+    def from_label(cls, label: str):
+        label = label.upper()
+        for instance in cls._instances:
+            if instance.label == label:
+                return instance
+        return None
+
+    @classmethod
+    def from_description(cls, description: str):
+        description = description.lower()
+        for instance in cls._instances:
+            if instance.description == description:
                 return instance
         return None
 

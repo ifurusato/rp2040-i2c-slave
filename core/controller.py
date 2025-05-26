@@ -22,6 +22,7 @@ from core.response import*
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 class Controller:
+    RESPONSE_32 = True
     '''
     A generalised controller connected to an I2C slave.
 
@@ -54,20 +55,16 @@ class Controller:
         '''
         if self._last_payload is not None:
             if self._last_payload.command == command:
-                self._log.info(Fore.BLUE + 'NOT sending redundant payload: {}'.format(self._last_payload))
+                self._log.info(Style.DIM + 'ignoring redundant payload: {}'.format(self._last_payload))
                 return RESPONSE_SKIPPED
         self._log.info("send payload: " + Fore.GREEN + "'{}'".format(command))
-        _payload = Payload(command)
-        return self._write_payload(_payload)
+        return self._write_payload(Payload(command))
 
     # ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
-    def _write_payload(self, payload, verbose=True):
+    def _write_payload(self, payload):
         '''
         Writes the payload argument to the Motor 2040.
         '''
-        if self._last_payload is not None and self._last_payload == payload:
-            self._log.info(Fore.BLUE + 'b. NOT sending redundant payload: {}'.format(self._last_payload))
-            return RESPONSE_SKIPPED
         self._last_payload = payload
         now = dt.datetime.now()
         if self._last_send_time:
@@ -81,26 +78,45 @@ class Controller:
                 )
                 return RESPONSE_SKIPPED
         try:
-            if verbose:
-                self._log.debug("writing payload: " + Fore.WHITE + "'{}'".format(payload.to_string()))
-            # send over I2C
+            # write Payload to I2C bus
+#           self._log.debug("writing payload: " + Fore.GREEN + "'{}'".format(payload.to_string()))
             _data = list(payload.to_bytes())
-            self._log.debug("data type: {}; data: '{}'".format(type(_data), _data))
+#           self._log.debug("data type: {}; data: '{}'".format(type(_data), _data))
             self._i2cbus.write_block_data(self._i2c_address, self._config_register, _data)
-            if verbose:
-                self._log.info("payload written: " + Fore.WHITE + "'{}'".format(payload.to_string()))
-            # read 1-byte response
-            _read_data = self._i2cbus.read_byte_data(self._i2c_address, self._config_register)
-            # convert response byte to Response
-            _response = Response.from_value(_read_data)
+            self._log.info("payload written: " + Fore.GREEN + "'{}'".format(payload.command))
+
+            # read response Payload from I2C bus
+            _response = None
+            if self.RESPONSE_32:
+                # read 32-byte response
+                _read_data = self._i2cbus.read_i2c_block_data(self._i2c_address, self._config_register, 32)
+                # convert list of ints to bytes and create Payload instance
+                try:
+                    _response_payload = Payload.from_bytes(bytes(_read_data))
+                    # extract the command string, stripping whitespace
+                    _command = _response_payload.command.strip()
+                    # lookup Response by label or description
+                    _response = Response.from_label(_command) or Response.from_description(_command)
+#                   self._log.info("payload received: " + Fore.GREEN + "'{}'".format(_response_payload.command) 
+#                           + Fore.CYAN  + " with response: " + Fore.GREEN + "'{}'".format(_response.description))
+                except ValueError as e:
+                    self._log.error("error processing payload: {}".format(e))
+                    _response_payload = None
+                    _response = None
+            else:
+                # read 1-byte response
+                _read_data = self._i2cbus.read_byte_data(self._i2c_address, self._config_register)
+                # convert response byte to Response
+                _response = Response.from_value(_read_data)
+
             if _response is None:
                 raise ValueError('null response.')
             elif not isinstance(_response, Response):
                 raise ValueError('expected Response, not {}.'.format(type(_response)))
-            elif _response != RESPONSE_OKAY:
-                self._log.debug("response: {}".format(_response.description))
+            elif _response == RESPONSE_OKAY:
+                self._log.info("response: " + Fore.GREEN + "'{}'".format(_response.description))
             else:
-                self._log.error("error response: {}".format(_response.description))
+                self._log.warning("response: " + Fore.RED + "'{}'".format(_response.description))
             self._last_send_time = now # update only on success
             return _response
         except TimeoutError as te:
@@ -112,7 +128,7 @@ class Controller:
 
     # ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
     def close(self):
-        self._log.info("closing…")
+        self._log.debug("closing…")
         if self._i2cbus:
             self._i2cbus.close()
         self._log.info('closed.')
