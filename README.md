@@ -4,17 +4,16 @@
 
 This provides a simple implementation for using an RP2040-based MCU as an
 I2C slave with a Raspberry Pi I2C master, sending a one-way message of up
-to 32 ASCII characters to the slave from the master, returning a single
-byte as status. There is currently no facility for returning longer messages,
-though this is a future goal of this project.
+to 32 ASCII characters as a Payload to the slave from the master, returning
+the same as a response.
 
 The implementation uses Python (CPython) on the Raspberry Pi as the master
 and MicroPython on the RP2040 as the slave. It communicates over default
 I2C address `0x43`, though this is easily changed.
 
 There is a base class called Controller, and an example subclass of this
-as a fake motor controller called MotorController, used as a demonstration
-of how to handle sent command strings.
+as a fake MotorController, used as a demonstration of how to handle sent
+command strings, including an async wait and a Timer.
 
 The I2CSlave class in theory works with any RP2040 board. This includes
 implementations for three types of displays: a Neopixel (as used on the
@@ -141,23 +140,24 @@ The RP2040 requires 10K pullup resistors on SDA and SCL to operate correctly.
 ## Testing
 
 You can then test to see if things are working by executing the `master.py`
-file with a string argument:
+file with a string argument (e.g., 'green'):
 ```
- % master.py "This is something important."
-  creating connection to I2C bus on address 0x44…
-  writing I2C payload of 28 chars: 'This is something important.'…
-  writing completion code…
-  write complete.
+ % master.py wait
+ 🤖 master.py green
+2025-05-26T15:23:26.459.000000Z	: main            : INFO  : controller begin…
+2025-05-26T15:23:26.460.000000Z	: controller      : INFO  : ready.
+2025-05-26T15:23:26.489.000000Z	: controller      : INFO  : send payload: 'green'
+2025-05-26T15:23:26.504.000000Z	: controller      : INFO  : payload written: 'green'
+2025-05-26T15:23:26.548.000000Z	: controller      : INFO  : response: 'okay'
+2025-05-26T15:23:26.548.000000Z	: main            : INFO  : response: 'okay'; 58.93ms elapsed.
+2025-05-26T15:23:26.549.000000Z	: main            : INFO  : complete.
+2025-05-26T15:23:26.549.000000Z	: controller      : INFO  : closed.
 ```
-Note that this only supports ASCII strings of up to 32 characters between
-SPACE and `~`. The response will be something like:
-```
-  read data: '32'
-  response: okay
-  complete.
-```
-If you're using an ItsyBitsy RP2040 the NeoPixel should flash green if the
+If you're using an ItsyBitsy RP2040 the NeoPixel should turn green if the
 transmission was successful.
+
+Note that this only supports ASCII strings of up to 31 characters.
+The response will be something like:
 
 
 ## Usage
@@ -176,13 +176,15 @@ between SPACE (32) and "~" (126). For example,
   % master.py "Send this message."
 ```
 
-The I2C slave will receive the message and respond with a single byte status
-indicator. The hardcoded values can be found in the MicroPython response.py.
+The I2C slave will receive the message and respond with a Payload wrapping
+a Response. The hardcoded values can be found in the MicroPython response.py.
+
+If you want to return your own data, you'd modify the i2c_slave.py class.
+
 
 ## Next Steps
 
-The next phase of this project will be to further simplify the code, which
-is still rather baroque.
+The project is now considered stable and complete.
 
 
 ## Support & Liability
