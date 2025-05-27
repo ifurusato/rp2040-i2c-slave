@@ -31,9 +31,9 @@ class I2CSlave:
     Wraps an RP2040_Slave to provide a processing loop and a connection
     to a Controller to handle I2C transactions.
     '''
-    def __init__(self, i2c_bus_id=None, sda=None, scl=None, i2c_address=None, display=None, controller=None, level=Level.INFO):
+    def __init__(self, name=None, i2c_bus_id=None, sda=None, scl=None, i2c_address=None, display=None, controller=None, level=Level.INFO):
         super().__init__()
-        self._log = Logger('i2c_slave', level)
+        self._log = Logger('i2c_s:{}'.format(name), level)
         self._log.debug("I2C slave starting…")
         self._display    = display
         self._controller = controller
